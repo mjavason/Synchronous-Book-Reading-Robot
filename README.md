@@ -1,0 +1,1 @@
+Simple Express and TypeScript API designed to sequentially read the contents of text files. If new files are submitted while the system is busy, they are added to a queue. Upon completion an email …
