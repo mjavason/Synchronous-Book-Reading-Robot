@@ -1,25 +1,15 @@
 import express from 'express';
 const router = express.Router();
-
-// Route Controllers
-import generalRouteGenerator from '../../../helpers/general_route_generator.helper';
-
-// Models
-import { BookModel } from '../../../models';
-
-// Interfaces
-import { IBook } from '../../../interfaces';
-
-// Controllers
-import { GeneralController } from '../../../controllers';
-const bookController = new GeneralController<IBook>(BookModel);
-
-// Validation
-import { bookValidation } from '../../../validation';
-
 import isAuth from '../../../middleware/is_auth.middleware';
+import { bookController } from '../../../controllers';
+import { upload } from '../../../config/multer';
+import isSingleFileUploaded from '../../../middleware/is_file_uploaded.middleware';
 
 router.use(isAuth);
-router.use('/book', generalRouteGenerator(bookValidation, bookController));
+router.post(
+  '/read',
+  [upload.single('book'), isSingleFileUploaded],
+  bookController.read
+);
 
 export default router;
